@@ -1,8 +1,26 @@
 # Homebridge XGimiTv Plugin
 
+<p align="center">
+    <img src="https://repository-images.githubusercontent.com/315327563/b5f04180-2f76-11eb-8c6a-ce5276b842e6" height="300">
+</p>
+
 A plugin on [Homebridge](https://github.com/nfarina/homebridge) to bring **XGimi Smart Projector** to HomeKit.
 
+**If you like this plugin, don't hesitate to "Star".**
+
+## Installation
+
+```
+sudo npm i -g homebridge-xgimi-tv@latest
+```
+
 ## Configuration
+
+Configuration on Config UI X is *NOT YET* supported.
+
+Please subscribe for future updates.
+
+That being said, be sure to edit ```config.json``` before add TV into Home app.
 
 ### Example BASIC config
 ```javascript
