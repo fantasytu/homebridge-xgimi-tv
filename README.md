@@ -7,7 +7,7 @@
 [![npm](https://img.shields.io/npm/v/homebridge-xgimi-tv.svg)](https://www.npmjs.com/package/homebridge-xgimi-tv)
 [![github](https://img.shields.io/github/package-json/v/fantasytu/homebridge-xgimi-tv.svg)](http://github.com/fantasytu/homebridge-xgimi-tv)
 [![license](https://img.shields.io/github/license/fantasytu/homebridge-xgimi-tv.svg)](http://github.com/fantasytu/homebridge-xgimi-tv)
-[![donate](https://img.shields.io/badge/Donate-Alipay-blue.svg)](https://paypal.me/fantasytu)
+[![donate](https://img.shields.io/badge/Donate-Paypal-blue.svg)](https://paypal.me/fantasytu)
 
 A plugin on [Homebridge](https://github.com/nfarina/homebridge) to bring **XGimi Smart Projector** to HomeKit.
 
