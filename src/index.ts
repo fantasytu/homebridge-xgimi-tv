@@ -1,11 +1,15 @@
-import { API } from 'homebridge';
-
-import { PLATFORM_NAME } from './settings';
-import { ExampleHomebridgePlatform } from './platform'; 
-
 /**
- * This method registers the platform with Homebridge
- */
-export = (api: API) => {
-  api.registerPlatform(PLATFORM_NAME, ExampleHomebridgePlatform);
-};
+ * v1.0
+ *
+ * @url http://github.com/fantasytu/homebridge-xgimi-tv
+ * @author Fantasy Tu <f.tu@me.com>
+ *
+**/
+'use strict';
+
+import { PLUGIN_NAME } from './settings';
+import { XGimiTeleVisionPlatform } from "./platform";
+
+export = (api) => {
+  api.registerPlatform(PLUGIN_NAME, 'XGimiTeleVisionPlatform', XGimiTeleVisionPlatform, true);
+}

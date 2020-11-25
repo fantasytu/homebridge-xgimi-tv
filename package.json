@@ -1,16 +1,16 @@
 {
   "private": true,
-  "displayName": "Plugin Name",
-  "name": "homebridge-plugin-name",
+  "displayName": "Homebridge XGimiTv Plugin",
+  "name": "homebridge-xgimi-tv",
   "version": "1.0.0",
-  "description": "A short description about what your plugin does.",
+  "description": "A plugin on homebridge to bring XGimi Smart Projector to HomeKit.",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/USERNAME/GITHUB_PROJECT_NAME.git"
+    "url": "git://github.com/fantasytu/homebridge-xgimi-tv.git"
   },
   "bugs": {
-    "url": "https://github.com/USERNAME/GITHUB_PROJECT_NAME/issues"
+    "url": "https://github.com/fantasytu/homebridge-xgimi-tv/issues"
   },
   "engines": {
     "node": ">=10.17.0",
@@ -18,20 +18,20 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "lint": "eslint src/**.ts --max-warnings=0",
     "watch": "npm run build && npm link && nodemon",
-    "build": "rimraf ./dist && tsc",
-    "prepublishOnly": "npm run lint && npm run build"
+    "build": "rimraf ./dist && tsc"
   },
   "keywords": [
-    "homebridge-plugin"
+    "homebridge-plugin",
+    "xgimi",
+    "xgimi-tv",
+    "jimi"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "ping": "^0.3.0"
+  },
   "devDependencies": {
     "@types/node": "^14.14.6",
-    "@typescript-eslint/eslint-plugin": "^4.6.1",
-    "@typescript-eslint/parser": "^4.6.1",
-    "eslint": "^7.13.0",
     "homebridge": "^1.2.3",
     "nodemon": "^2.0.6",
     "rimraf": "^3.0.2",

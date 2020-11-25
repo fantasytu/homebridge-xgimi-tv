@@ -1,17 +1,9 @@
-# Homebridge XGimiTv Plugin
-
-A plugin on [Homebridge](https://github.com/nfarina/homebridge) to bring **XGimi Smart Projector** to HomeKit.
-
-## Configuration
-
-### Example BASIC config
-```javascript
 {
     "bridge": {
         "name": "Homebridge ED57",
         "username": "0E:C6:1D:3E:ED:57",
         "port": 51995,
-        "pin": "193-78-630"
+        "pin": "778-07-298"
     },
     "accessories": [],
     "platforms": [
@@ -39,31 +31,11 @@ A plugin on [Homebridge](https://github.com/nfarina/homebridge) to bring **XGimi
                     }
                   ],
                   "manufacturer": "XGimi",
-                  "model": "H2",
-                  "serialNumber": "DSXXXXXXXXXX",
+                  "model": "H1S",
+                  "serialNumber": "DSWAH91AATB4",
                   "firmwareRevision": "1.0.0"
                 }
             ]
         }
     ]
 }
-```
-
-To get the **package** attribute, you can visit:
-```
-http://{{you_tv_ip}}:16741/data/data/com.xgimi.vcontrol/app_appDatas/list
-```
-
-## Tested On
-
-* iOS 14
-* Apple Home
-* Homebridge 1.1.6
-
-## Development Plan
-
-* Speaker Accessory
-
-## Troubleshooting
-
-If you have any issue, contact me(**f.tu@me.com**) or just submit an [issues](https://github.com/fatedier/frp/issues).
