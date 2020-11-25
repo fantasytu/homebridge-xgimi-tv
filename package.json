@@ -1,5 +1,4 @@
 {
-  "private": true,
   "displayName": "Homebridge XGimiTv Plugin",
   "name": "homebridge-xgimi-tv",
   "version": "1.0.0",
