@@ -1,5 +1,5 @@
 /**
- * v1.0
+ * v1.0.1
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -10,7 +10,7 @@
 import { MANUFACTURER, PLUGIN_NAME, PLATFORM_NAME, SIMPLE_API_PORT, COMPLEX_API_PORT, SIMPLE_APIS, COMPLEX_APIS } from '../settings';
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import ping from "ping";
-import dgram from 'dgram';
+import { DgramAsPromised } from "dgram-as-promised";
 
 export class XGimiTeleVisionAccessory {
     public readonly Service: typeof Service;
@@ -151,23 +151,24 @@ export class XGimiTeleVisionAccessory {
 
     }
 
-    getTvStatus() {
+    async getTvStatus() {
       this.log.info('Getting TV Status');
       this.getPower();
     }
 
-    getPower() {
-      var that = this;
+    async getPower() {
+      try {
+        const pingResult = await ping.promise.probe(this.config.host, { timeout: 3 });
+        const currentPowerStatus = pingResult.alive ? 1 : 0;
+        this.tvService.updateCharacteristic(this.Characteristic.Active, currentPowerStatus);
 
-      ping.sys.probe(this.config.host, function(isAlive){
-        const currentPowerStatus = isAlive ? 1 : 0;
-        that.tvService.setCharacteristic(that.Characteristic.Active, currentPowerStatus);
-
-        that.log.info('Getting TV Status: power status => ' + (isAlive ? 'on' : 'off'));
-      });
+        this.log.info('Getting TV Status: power status => ' + (currentPowerStatus ? 'on' : 'off'));
+      } catch (error) {
+        this.log.warn(error.message);
+      }
     }
 
-    setPower(newValue, callback) {
+    async setPower(newValue, callback) {
       this.tvService.updateCharacteristic(this.Characteristic.Active, newValue);
 
       switch (newValue) {
@@ -243,27 +244,27 @@ export class XGimiTeleVisionAccessory {
       this.log.info('set VolumeSelector => setNewValue: ' + newValue);
     }
 
-    sendMessage(api, simple_api = false) {
+    async sendMessage(api, simple_api = false) {
 
-        var client = dgram.createSocket('udp4');
+        var client = DgramAsPromised.createSocket('udp4');
         var host = this.config.host as string;
         var port = simple_api ? SIMPLE_API_PORT : COMPLEX_API_PORT;
         var message = Buffer.from(api, 'utf8');
-        var that = this;
 
-        that.log.info('Sending UDP Message : ' + message);
+        this.log.info('Sending UDP Message : ' + message);
 
-        Promise.resolve(client.connect(port, host))
-          .then((res) => { client.send(message) })
-          .then((res) => { client.close() })
-          .catch((err: any) => {
-              if(err.code == 'EHOSTUNREACH' || err.code == 'EHOSTDOWN'){
-                  that.log.warn('TV is not responding...');
-                  that.getPower();
-              }else{
-                  that.log.warn('Error occured when sending message to tv');
-              }
-          });
+        try {
+          const pingResult = await ping.promise.probe(host, { timeout: 3 });
+          if (pingResult.alive) {
+            await client.send(message, port, host);
+          }else{
+            this.log.warn('TV is not responding...');
+            this.tvService.updateCharacteristic(this.Characteristic.Active, this.Characteristic.Active.INACTIVE);
+          }
+        } catch (error) {
+            this.log.warn(error.message);
+        }
+
     }
 
     timeout(ms) {

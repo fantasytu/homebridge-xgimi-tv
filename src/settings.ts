@@ -1,3 +1,10 @@
+/**
+ * v1.0.1
+ *
+ * @url http://github.com/fantasytu/homebridge-xgimi-tv
+ * @author Fantasy Tu <f.tu@me.com>
+ *
+**/
 'use strict';
 
 import Characteristic from 'homebridge';

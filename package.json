@@ -27,6 +27,7 @@
     "jimi"
   ],
   "dependencies": {
+    "dgram-as-promised": "^5.0.1",
     "ping": "^0.3.0"
   },
   "devDependencies": {
