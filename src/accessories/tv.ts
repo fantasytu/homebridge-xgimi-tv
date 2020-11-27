@@ -1,5 +1,5 @@
 /**
- * v1.0.1
+ * v1.0.2
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -61,6 +61,8 @@ export class XGimiTeleVisionAccessory {
         this.createInputSourceService();
 
         this.getTvStatus();
+
+        return [this.tvService, this.speakerService, ...this.inputResources];
     }
 
     /**
@@ -127,9 +129,9 @@ export class XGimiTeleVisionAccessory {
         "type"    : "HOME_SCREEN",
       };
 
-      this.inputResources = [homeScreenInput, ...(this.config.inputs as Array<any>)];
+      var inputs = [homeScreenInput, ...(this.config.inputs as Array<any>)];
 
-      (this.inputResources as Array<any>).forEach((input, identifier) => {
+      (inputs as Array<any>).forEach((input, identifier) => {
         var name = input.name;
         var id = name.replace(/\s+/g, '').toLowerCase();
         var type = eval(`this.Characteristic.InputSourceType.${input.type}`);
@@ -137,6 +139,7 @@ export class XGimiTeleVisionAccessory {
         var inputSource = this.accessory.addService(this.Service.InputSource, id, name);
         inputSource = this.configInputSource(inputSource, name, identifier, type);
 
+        this.inputResources.push(inputSource);
         this.tvService.addLinkedService(inputSource);
       });
     }
@@ -241,6 +244,20 @@ export class XGimiTeleVisionAccessory {
         await this.timeout(2000);
       }
 
+      switch (newValue) {
+        case this.Characteristic.VolumeSelector.INCREMENT:
+          this.sendMessage(SIMPLE_APIS['vol+']);
+          this.log.info('Turning up the volume');
+          break;
+        case this.Characteristic.VolumeSelector.DECREMENT:
+          this.sendMessage(SIMPLE_APIS['vol-']);
+          this.log.info('Turning down the volume');
+          break;
+        default:
+          // fallout
+          break;
+      }
+
       this.log.info('set VolumeSelector => setNewValue: ' + newValue);
     }
 
@@ -259,7 +276,7 @@ export class XGimiTeleVisionAccessory {
             await client.send(message, port, host);
           }else{
             this.log.warn('TV is not responding...');
-            this.tvService.updateCharacteristic(this.Characteristic.Active, this.Characteristic.Active.INACTIVE);
+            (this.accessory.getService(this.Service.Television) as any).updateCharacteristic(this.Characteristic.Active, this.Characteristic.Active.INACTIVE);
           }
         } catch (error) {
             this.log.warn(error.message);

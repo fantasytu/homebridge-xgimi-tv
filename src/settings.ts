@@ -1,5 +1,5 @@
 /**
- * v1.0.1
+ * v1.0.2
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -19,8 +19,8 @@ export const COMPLEX_API_PORT = 16750;
 
 export const SIMPLE_APIS = {
     'power' : 'KEYPRESSES:116',
-    'vol+'  : 'KEYPRESSES:115',
-    'vol-'  : 'KEYPRESSES:114',
+    'vol+'  : 'KEYPRESSES:115',  //vol+  - Characteristic.VolumeSelector.INCREMENT
+    'vol-'  : 'KEYPRESSES:114',  //vol-  - Characteristic.VolumeSelector.DECREMENT
     15      : 'KEYPRESSES:139',  //menu  - Characteristic.RemoteKey.INFORMATION
     9       : 'KEYPRESSES:48',   //back  - Characteristic.RemoteKey.BACK
     11      : 'KEYPRESSES:49',   //ok    - Characteristic.RemoteKey.PLAY_PAUSE
