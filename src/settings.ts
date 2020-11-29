@@ -1,5 +1,5 @@
 /**
- * v1.0.2
+ * v1.1
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -16,6 +16,10 @@ export const PLATFORM_NAME = 'XGimiTeleVisionPlatform';
 
 export const SIMPLE_API_PORT = 16735;
 export const COMPLEX_API_PORT = 16750;
+
+export const POLL_INTERVAL = 10000;
+export const WAIT_TV_RESPONSE_TIMEOUT = 2000;
+export const PING_TIMEOUT = 3;
 
 export const SIMPLE_APIS = {
     'power' : 'KEYPRESSES:116',

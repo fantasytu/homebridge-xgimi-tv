@@ -1,5 +1,5 @@
 /**
- * v1.0.2
+ * v1.1.0
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -7,7 +7,7 @@
 **/
 'use strict';
 
-import { MANUFACTURER, PLUGIN_NAME, PLATFORM_NAME, SIMPLE_API_PORT, COMPLEX_API_PORT, SIMPLE_APIS, COMPLEX_APIS } from '../settings';
+import { MANUFACTURER, PLUGIN_NAME, PLATFORM_NAME, SIMPLE_API_PORT, COMPLEX_API_PORT, SIMPLE_APIS, COMPLEX_APIS, POLL_INTERVAL, WAIT_TV_RESPONSE_TIMEOUT, PING_TIMEOUT } from '../settings';
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 import ping from "ping";
 import { DgramAsPromised } from "dgram-as-promised";
@@ -156,7 +156,12 @@ export class XGimiTeleVisionAccessory {
 
     async getTvStatus() {
       this.log.info('Getting TV Status');
+
       this.getPower();
+
+      setTimeout(() => {
+        this.getTvStatus();
+      }, POLL_INTERVAL);
     }
 
     async getPower() {
@@ -199,7 +204,7 @@ export class XGimiTeleVisionAccessory {
 
       if (!powerStatus) {
         this.log.info('Wait for TV turning on before send command..');
-        await this.timeout(2000);
+        await this.timeout(WAIT_TV_RESPONSE_TIMEOUT);
       }
 
       if (newValue == 0) {
@@ -222,7 +227,7 @@ export class XGimiTeleVisionAccessory {
 
       if (!powerStatus) {
         this.log.info('Wait for TV turning on before send command..');
-        await this.timeout(2000);
+        await this.timeout(WAIT_TV_RESPONSE_TIMEOUT);
       }
 
       if (SIMPLE_APIS[newValue]) {
@@ -241,16 +246,16 @@ export class XGimiTeleVisionAccessory {
 
       if (!powerStatus) {
         this.log.info('Wait for TV turning on before send command..');
-        await this.timeout(2000);
+        await this.timeout(WAIT_TV_RESPONSE_TIMEOUT);
       }
 
       switch (newValue) {
         case this.Characteristic.VolumeSelector.INCREMENT:
-          this.sendMessage(SIMPLE_APIS['vol+']);
+          this.sendMessage(SIMPLE_APIS['vol+'], true);
           this.log.info('Turning up the volume');
           break;
         case this.Characteristic.VolumeSelector.DECREMENT:
-          this.sendMessage(SIMPLE_APIS['vol-']);
+          this.sendMessage(SIMPLE_APIS['vol-'], true);
           this.log.info('Turning down the volume');
           break;
         default:
@@ -271,7 +276,7 @@ export class XGimiTeleVisionAccessory {
         this.log.info('Sending UDP Message : ' + message);
 
         try {
-          const pingResult = await ping.promise.probe(host, { timeout: 3 });
+          const pingResult = await ping.promise.probe(host, { timeout: PING_TIMEOUT });
           if (pingResult.alive) {
             await client.send(message, port, host);
           }else{
