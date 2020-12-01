@@ -1,5 +1,5 @@
 /**
- * v1.1.0
+ * v1.2
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -155,8 +155,6 @@ export class XGimiTeleVisionAccessory {
     }
 
     async getTvStatus() {
-      this.log.info('Getting TV Status');
-
       this.getPower();
 
       setTimeout(() => {
@@ -169,8 +167,6 @@ export class XGimiTeleVisionAccessory {
         const pingResult = await ping.promise.probe(this.config.host, { timeout: 3 });
         const currentPowerStatus = pingResult.alive ? 1 : 0;
         this.tvService.updateCharacteristic(this.Characteristic.Active, currentPowerStatus);
-
-        this.log.info('Getting TV Status: power status => ' + (currentPowerStatus ? 'on' : 'off'));
       } catch (error) {
         this.log.warn(error.message);
       }
