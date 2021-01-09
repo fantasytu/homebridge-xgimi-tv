@@ -84,10 +84,6 @@ http://{{you_tv_ip}}:16741/data/data/com.xgimi.vcontrol/app_appDatas/list
 * Apple Home
 * Homebridge 1.1.6
 
-## Development Plan
-
-* Speaker Accessory
-
 ## Troubleshooting
 
-If you have any issue, contact me(**f.tu@me.com**) or just submit an [issues](https://github.com/fatedier/frp/issues).
+If you have any issue, contact me(**f.tu@me.com**) or just submit an [issues](https://github.com/fantasytu/homebridge-xgimi-tv/issues).
