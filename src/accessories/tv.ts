@@ -1,5 +1,5 @@
 /**
- * v1.2
+ * v1.3
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -134,7 +134,7 @@ export class XGimiTeleVisionAccessory {
       (inputs as Array<any>).forEach((input, identifier) => {
         var name = input.name;
         var id = name.replace(/\s+/g, '').toLowerCase();
-        var type = eval(`this.Characteristic.InputSourceType.${input.type}`);
+        var type = `this.Characteristic.InputSourceType.${input.type}`;
 
         var inputSource = this.accessory.addService(this.Service.InputSource, id, name);
         inputSource = this.configInputSource(inputSource, name, identifier, type);
@@ -206,13 +206,13 @@ export class XGimiTeleVisionAccessory {
       if (newValue == 0) {
           this.sendMessage(SIMPLE_APIS[this.Characteristic.RemoteKey.EXIT], true);
       }else{
-          var inputSource = this.inputResources[newValue];
+          var inputSource = (this.config.inputs as Array<any>)[newValue - 1];
 
           if (inputSource.type === "APPLICATION" && inputSource.package) {
               this.sendMessage(COMPLEX_APIS['app'](inputSource.package));
           }
       }
-      this.log.info('set Input Resource: ' + this.inputResources[newValue].name);
+      this.log.info('set Input Resource: ' + (this.config.inputs as Array<any>)[newValue - 1].name);
     }
 
     async setRemoteKey(newValue, callback) {
