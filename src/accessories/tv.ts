@@ -1,5 +1,5 @@
 /**
- * v1.3
+ * v1.3.1
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -212,7 +212,7 @@ export class XGimiTeleVisionAccessory {
               this.sendMessage(COMPLEX_APIS['app'](inputSource.package));
           }
       }
-      this.log.info('set Input Resource: ' + (this.config.inputs as Array<any>)[newValue - 1].name);
+      this.log.info('set Input Resource: ' + (newValue - 1 == 0 ? 'HomeScreen' : (this.config.inputs as Array<any>)[newValue - 1].name));
     }
 
     async setRemoteKey(newValue, callback) {
