@@ -1,5 +1,5 @@
 /**
- * v1.3.2
+ * v1.3.5
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>

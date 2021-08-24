@@ -1,5 +1,5 @@
 /**
- * v1.3.2
+ * v1.3.5
  *
  * @url http://github.com/fantasytu/homebridge-xgimi-tv
  * @author Fantasy Tu <f.tu@me.com>
@@ -134,7 +134,7 @@ export class XGimiTeleVisionAccessory {
       (inputs as Array<any>).forEach((input, identifier) => {
         var name = input.name;
         var id = name.replace(/\s+/g, '').toLowerCase();
-        var type = `this.Characteristic.InputSourceType.${input.type}`;
+        var type = this.Characteristic.InputSourceType[input.type];
 
         var inputSource = this.accessory.addService(this.Service.InputSource, id, name);
         inputSource = this.configInputSource(inputSource, name, identifier, type);
